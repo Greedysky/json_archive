@@ -3,7 +3,7 @@ Json Archive
 Json archive(input/output) for boost::serialization.
 
 ## Build Dependencies
-* boost 1.54.0or newer
+* boost 1.54.0 or newer
 * json
 * g++ (c++11)
 
@@ -17,7 +17,6 @@ Json archive(input/output) for boost::serialization.
 GPLV3 License
 
 ## Copyright
-Copyright
 -------
  * This file is part of the Json Archive project.
  * Copyright (c) 2015 - 2019 Greedysky Studio.
