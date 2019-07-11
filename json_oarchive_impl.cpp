@@ -85,6 +85,11 @@ void json_oarchive_impl::save_impl(const std::string& v)
 
 void json_oarchive_impl::save_start(const char* name)
 {
+  if(!name)
+  {
+    return;
+  }
+  //
   archive_.push_data(name);
 
   Json&        data = archive_.get_data();
@@ -118,6 +123,11 @@ void json_oarchive_impl::save_start(const char* name)
 
 void json_oarchive_impl::save_end(const char* name)
 {
+  if(!name)
+  {
+    return;
+  }
+  //
   archive_.pop_data();
   if(array_stack_[--array_level_].second)
   {

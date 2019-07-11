@@ -76,6 +76,11 @@ void json_iarchive_impl::load(boost::serialization::item_version_type& v)
 
 void json_iarchive_impl::load_start(const char* name)
 {
+  if(!name)
+  {
+    return;
+  }
+  //
   archive_.push_data(name);
   const size_t sz = array_stack_.size();
   if(sz < ++array_level_)
@@ -107,6 +112,11 @@ void json_iarchive_impl::load_start(const char* name)
 
 void json_iarchive_impl::load_end(const char* name)
 {
+  if(!name)
+  {
+    return;
+  }
+  //
   archive_.pop_data();
   if(array_stack_[--array_level_].pop_flag_)
   {
