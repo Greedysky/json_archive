@@ -126,7 +126,7 @@ private:
     }
     load_end(t.name());
   }
-  //
+  // ARRAY
   template <class T>
   void load_override(const boost::serialization::array_wrapper<T>& t)
   {

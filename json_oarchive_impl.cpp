@@ -101,16 +101,18 @@ void json_oarchive_impl::save_start(const char* name)
   }
   else
   {
-    if(array_stack_.back().first != name)
+    DataItem& item = array_stack_.back();
+    if(item.first != name)
     {
-      array_stack_.back().first = name;
-      data = Json();
+      item.first  = name;
+      item.second = false;
+      data        = Json();
     }
     else
     {
       if(!data.is_array())
       {
-        array_stack_.back().second = true;
+        item.second = true;
 
         Json temp;
         temp.swap(data);

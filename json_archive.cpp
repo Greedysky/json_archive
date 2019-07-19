@@ -44,7 +44,7 @@ void json_archive::push_data(const char* name)
   data_stack_.push_back(&get_data()[name]);
 }
 
-void json_archive::push_data(int number)
+void json_archive::push_data(const int number)
 {
   Json& target = get_data();
   if(!target.is_array())

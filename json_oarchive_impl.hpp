@@ -18,7 +18,8 @@ class json_oarchive_impl :
   public json_archive_interface
 {
 public:
-  using DataVector = std::vector<std::pair<std::string, bool> >;
+  using DataItem   = std::pair<std::string, bool>;
+  using DataVector = std::vector<DataItem>;
   using base_class = detail::common_oarchive<json_oarchive_impl>;
 
 public:
@@ -137,7 +138,7 @@ private:
     base_class::save_override<const T &>(t.const_value());
     save_end(t.name());
   }
-  //
+  // ARRAY
   template <class T>
   void save_override(const boost::serialization::array_wrapper<T>& t)
   {

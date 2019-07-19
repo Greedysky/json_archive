@@ -25,11 +25,11 @@ const std::string ClassNameType("class_name");
 const std::string VersionType("version");
 const std::string ItemVersionType("item_version");
 const std::string ObjectIdType("object_id");
-const std::string ObjectReferenceType("object_ref");
+const std::string ObjectReferenceType("object_id_ref");
 const std::string ClassIdType("class_id");
 const std::string ClassIdOptionalType("class_id_opt");
 const std::string ClassIdReferenceType("class_id_ref");
-const std::string TrackingType("tracking");
+const std::string TrackingType("tracking_level");
 const std::string ObjRepository("__obj_repository__");
 const std::string ClassRepository("__class_repository__");
 }
@@ -73,7 +73,7 @@ public:
   void pop_to_mark();
 
   void         push_data(const char* name);
-  void         push_data(int number);
+  void         push_data(const int number);
   void         pop_data();
   const Json & get_data() const;
   Json &       get_data();

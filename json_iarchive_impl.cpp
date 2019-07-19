@@ -82,10 +82,11 @@ void json_iarchive_impl::load_start(const char* name)
   }
   //
   archive_.push_data(name);
+
   const size_t sz = array_stack_.size();
   if(sz < ++array_level_)
   {
-    array_stack_.emplace_back(DataItem {name, false});
+    array_stack_.emplace_back(DataItem {name, 0, false});
   }
   else
   {
@@ -99,8 +100,10 @@ void json_iarchive_impl::load_start(const char* name)
     }
     else
     {
-      item.index_ = 0;
-      item.key_   = name;
+      item.index_    = 0;
+      item.key_      = name;
+      item.pop_flag_ = false;
+
       if(is_array)
       {
         item.pop_flag_ = true;
