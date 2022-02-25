@@ -9,8 +9,8 @@ Json archive(input/output) for boost::serialization.
 
 ## Build
 ```bash
-	$ cmake .
-	$ make
+  $ cmake .
+  $ make
 ```
 
 ## License
