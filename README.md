@@ -19,5 +19,5 @@ GPLV3 License
 ## Copyright
 -------
  * This file is part of the Json Archive project.
- * Copyright (c) 2015 - 2019 Greedysky Studio.
+ * Copyright (C) 2015 - 2019 Greedysky Studio.
  * Mail: greedysky@163.com.

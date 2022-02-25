@@ -9,8 +9,9 @@ find_package(Boost 1.54.0 REQUIRED)
 
 include_directories(${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
+
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-	add_definitions(-DDEBUG=1 -DBOOST_PP_VARIADICS=1)
+  add_definitions(-DDEBUG=1 -DBOOST_PP_VARIADICS=1)
 endif()
 
 set(LIB_SRC json_iarchive_impl.cpp json_oarchive_impl.cpp json_archive.cpp)
