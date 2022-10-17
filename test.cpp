@@ -16,164 +16,114 @@
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/shared_ptr.hpp>
 
-class Poss
+class Pos
 {
 public:
-  Poss()
+  Pos()
+    : x_(0)
+    , y_(0)
   {
   }
 
-  Poss(int x, int y)
+  Pos(int x, int y)
+    : x_(x)
+    , y_(y)
   {
-    this->x = x;
-    this->y = y;
   }
-  int x;
-  int y;
+
 private:
-  friend class boost::serialization::access;
-
-  template <typename Archive> void serialize(Archive& ar, unsigned)
-  {
-    ar & BOOST_SERIALIZATION_NVP(x)
-    & BOOST_SERIALIZATION_NVP(y);
-  }
-};
-
-class Animal {
-public:
-  Animal()
-  {
-    legs      = 0;
-    is_mammal = false;
-  }
-  virtual void Sleep() = 0;
-  void set_leg(int l)
-  {
-    legs = l;
-  }
-  void set_name(std::string s)
-  {
-    name = s;
-  }
-  void set_ismammal(bool b)
-  {
-    is_mammal = b;
-  }
-  void set_myposs(int x, int y)
-  {
-    my_poss.x = x;
-    my_poss.y = y;
-  }
-  void set_array(int x, int y, int z)
-  {
-    array.push_back(x);
-    array.push_back(y);
-    array.push_back(z);
-  }
-  void set_poss_array(int x, int y)
-  {
-    poss_array.push_back(Poss(x, y));
-    poss_array.push_back(Poss(x, y));
-    poss_array.push_back(Poss(x, y));
-  }
-
-  void print();
+  int x_;
+  int y_;
 
 private:
   friend class boost::serialization::access;
-
-  template <typename Archive> void serialize(Archive& ar, unsigned)
+  template <typename Archive>
+  inline void serialize(Archive& ar, unsigned)
   {
-    ar & BOOST_SERIALIZATION_NVP(my_poss)
-    & BOOST_SERIALIZATION_NVP(legs)
-    & BOOST_SERIALIZATION_NVP(is_mammal)
-    & BOOST_SERIALIZATION_NVP(array)
-    & BOOST_SERIALIZATION_NVP(poss_array)
-    & BOOST_SERIALIZATION_NVP(name);
+    ar
+    & BOOST_SERIALIZATION_NVP(x_)
+    & BOOST_SERIALIZATION_NVP(y_);
   }
-
-  Poss              my_poss;
-  int               legs;
-  bool              is_mammal;
-  std::vector<int>  array;
-  std::vector<Poss> poss_array;
-  std::string       name;
 };
 
 
-
-class Dog : public Animal
+class Test
 {
 public:
-
-  Dog()
-  {
-    poss = boost::make_shared<Poss>(0, 0);
-    run  = false;
-  }
-
-  void set_run(bool b)
-  {
-    run = b;
-  }
-
-  void set_poss(int x, int y)
-  {
-    poss->x = x;
-    poss->y = y;
-  }
-
-  void pposs()
-  {
-    std::cout << run << poss->x << poss->y;
-  }
-
-  virtual void Sleep() override
+  Test()
+    : struct_(3, 4)
+    , int_(1)
+    , bool_(true)
+    , double_(3.14)
+    , string_("Test")
+    , int_array_({1, 1, 1})
+    , struct_array_({Pos(0, 0), Pos(1, 1), Pos(2, 2)})
   {
   }
 
 private:
   friend class boost::serialization::access;
-
-  template <typename Archive> void serialize(Archive& ar, unsigned)
+  template <typename Archive>
+  inline void serialize(Archive& ar, unsigned)
   {
-    ar & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Animal)
-    & BOOST_SERIALIZATION_NVP(run)
-    & BOOST_SERIALIZATION_NVP(poss);
+    ar
+    & BOOST_SERIALIZATION_NVP(struct_)
+    & BOOST_SERIALIZATION_NVP(int_)
+    & BOOST_SERIALIZATION_NVP(bool_)
+    & BOOST_SERIALIZATION_NVP(double_)
+    & BOOST_SERIALIZATION_NVP(string_)
+    & BOOST_SERIALIZATION_NVP(int_array_)
+    & BOOST_SERIALIZATION_NVP(struct_array_);
   }
-  bool                    run;
-  boost::shared_ptr<Poss> poss;
+
+  Pos         struct_;
+  int         int_;
+  bool        bool_;
+  double      double_;
+  std::string string_;
+
+  std::vector<int> int_array_;
+  std::vector<Pos> struct_array_;
 };
 
-void Animal::print()
+class TestA : public Test
 {
-  std::cout << name << legs << is_mammal << my_poss.x << my_poss.y;
-}
+public:
+  TestA()
+    : Test()
+    , hdr_(boost::make_shared<Pos>(6, 6))
+  {
+  }
+
+private:
+  friend class boost::serialization::access;
+  template <typename Archive>
+  inline void serialize(Archive& ar, unsigned)
+  {
+    ar
+    & BOOST_SERIALIZATION_BASE_OBJECT_NVP(Test)
+    & BOOST_SERIALIZATION_NVP(hdr_);
+  }
+
+  boost::shared_ptr<Pos> hdr_;
+};
+
 
 int main()
 {
   std::stringstream stream;
   {
-    Dog animal;
-    animal.set_name("Horse");
-    animal.set_leg(4);
-    animal.set_ismammal(true);
-    animal.set_run(true);
-    animal.set_myposs(2, 2);
-    animal.set_poss(11, 11);
-    animal.set_array(9, 8, 7);
-    animal.set_poss_array(9, 8);
-
-    boost::archive::json_oarchive oa(stream);
-    oa << BOOST_SERIALIZATION_NVP(animal);
-    std::cout << stream.str() << std::endl;
+    {
+      TestA test;
+      boost::archive::json_oarchive oa(stream);
+      oa << BOOST_SERIALIZATION_NVP(test);
+      std::cout << stream.str() << std::endl;
+    }
 
     {
-      Dog                           animal;
+      TestA test;
       boost::archive::json_iarchive ia(stream);
-      ia >> BOOST_SERIALIZATION_NVP(animal);
-      animal.print();
+      ia >> BOOST_SERIALIZATION_NVP(test);
     }
   }
 }
