@@ -1,13 +1,3 @@
-/*********************************************************************
-*
-* Software License Agreement ()
-*
-*  Copyright (c) 2019, Greedysky Studio, Inc.
-*  All rights reserved.
-*
-* Author: Greedysky
-* Create Date: July 6, 2019
-*********************************************************************/
 #include "json_iarchive_impl.hpp"
 
 namespace boost {
