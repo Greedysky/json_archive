@@ -152,7 +152,15 @@ void json_iarchive_impl::load_override(version_type& t)
 void json_iarchive_impl::load_override(boost::serialization::collection_size_type& t)
 {
     Json& data = archive_.get_data();
-    const uint32_t value = data.is_array() ? data.size() : data["count"];
+    uint32_t value;
+    if(data.is_array())
+    {
+        value = data.size();
+    }
+    else
+    {
+        value = data["count"];
+    }
     t = boost::serialization::collection_size_type(value);
 }
 

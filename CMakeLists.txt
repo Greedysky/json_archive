@@ -1,12 +1,12 @@
-/***************************************************************************
- * Copyright (C) 2015 - 2024 Greedysky Studio
+# ***************************************************************************
+# * Copyright (C) 2015 - 2024 Greedysky Studio
+#
+# * Use, modification and distribution is subject to the Boost Software
+# * License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
+# * http://www.boost.org/LICENSE_1_0.txt).
+# ***************************************************************************
 
- * Use, modification and distribution is subject to the Boost Software
- * License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at
- * http://www.boost.org/LICENSE_1_0.txt).
- ***************************************************************************/
- 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0.0)
 
 project(json_archive)
 
@@ -14,7 +14,7 @@ set(CMAKE_CXX_FLAGS "-std=c++11")
 set(CMAKE_CXX_FLAGS_DEBUG "-ggdb3 -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-find_package(Boost 1.54.0 REQUIRED)
+find_package(Boost 1.64.0 REQUIRED)
 
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
   add_definitions(-DDEBUG=1 -DBOOST_PP_VARIADICS=1)
